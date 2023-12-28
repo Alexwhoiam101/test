@@ -1,0 +1,75 @@
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Try2CopyIt</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}" />
+</head>
+<body>
+<th:block th:include="/_header"></th:block>
+<th:block th:include="/_menu"></th:block>
+
+<div>
+    <div>
+        <div class="page-title">
+            <h3>USER REGISTRATION PAGE</h3>
+        </div>
+
+        <div  class="login-container">
+            <form th:action="@{/register/save}" method="POST" th:object="${user}">
+                <input type="hidden" th:field="*{userName}">
+                <div>
+                    <div>
+                        <label>User Name</label>
+                    </div>
+                    <div>
+                        <input type="text" th:field="*{userName}"/>
+                    </div>
+                </div>
+
+                <br>
+                <div>
+                    <div>
+                        <label>Password</label>
+                    </div>
+                    <div>
+                        <input type="password" th:field="*{encrytedPassword}"/>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div>
+                        <label>CAPTCHA</label>
+                    </div>
+                    <div>
+                        <img th:src="*{'data:realCaptcha/jpg;base64,'+ realCaptcha}"/>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div>
+                        <label>ENTER CAPTCHA</label>
+                    </div>
+                    <div>
+                        <input type="hidden" th:field="*{hiddenCaptcha}"/>
+                        <input type="text" th:field="*{captcha}"/>
+                    </div>
+                </div>
+
+                <br>
+
+                <div>
+                    <input type="submit" value="Register"/>
+                </div>
+            </form>
+            <br/>
+        </div>
+        <div  class="error-message"  th:if="${message!=null}">
+            <span th:text="${message}"></span>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

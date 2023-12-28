@@ -1,0 +1,23 @@
+<div class="header-container"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+     xmlns:c="http://www.w3.org/1999/XSL/Transform">
+
+    <div class="site-name">Try2CopyIt</div>
+
+    <div class="header-bar">
+        <th:block sec:authorize="isAuthenticated()">
+            Hello
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <a th:href="@{/admin/accountInfo}" utext="${pageContext.request.userPrincipal.name}">..</a>
+            </c:if>
+            &nbsp;|&nbsp;
+            <a th:href="@{/admin/logout}">Logout</a>
+        </th:block>
+
+        <th:block sec:authorize="!isAuthenticated()">
+            <a th:href="@{/admin/login}">Login</a>
+        </th:block>
+    </div>
+
+</div>
