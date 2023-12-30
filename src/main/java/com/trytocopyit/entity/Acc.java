@@ -7,7 +7,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Data
 @Table(name = "accounts")
 public class Acc implements Serializable {
 
@@ -17,10 +16,6 @@ public class Acc implements Serializable {
     public static final String ROLE_USER = "ROLE_USER";
 
     @Id
-    @GeneratedValue
-    @Column(name = "id", unique = true)
-    private Long  id;
-
     @Column(name = "User_Name", length = 20, nullable = false)
     private String userName;
 
@@ -42,8 +37,16 @@ public class Acc implements Serializable {
     @Transient
     private String realCaptcha;
 
-    public Acc() {
+    public Acc(String userName_, String encrytedPassword_) {
+        userName = userName_;
+        encrytedPassword = encrytedPassword_;
+        active = true;
+        userRole = "ROLE_USER";
+    }
 
+    public Acc() {
+        active = true;
+        userRole = "ROLE_USER";
     }
 
     public String getUserName() {

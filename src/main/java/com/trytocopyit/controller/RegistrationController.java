@@ -1,11 +1,8 @@
 package com.trytocopyit.controller;
 
-import java.util.List;
-
 import com.trytocopyit.entity.Acc;
-import com.trytocopyit.service.UserServiceInterface;
+import com.trytocopyit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegistrationController {
 
     @Autowired
-    private UserServiceInterface service;
+    private UserService service;
 
     @GetMapping("/")
     public String registerUser(Model model) {
@@ -28,6 +25,11 @@ public class RegistrationController {
         getCaptcha(user);
         model.addAttribute("user", user);
         return "register";
+    }
+
+    @GetMapping("/save")
+    public String saveUserStage2(Model model) {
+        return "redirect:/admin/login";
     }
 
     @PostMapping("/save")
@@ -46,13 +48,6 @@ public class RegistrationController {
             model.addAttribute("user", user);
         }
         return "register";
-    }
-
-    @GetMapping("/allUsers")
-    public String getAllUsers(Model model) {
-        List<Acc> userList= service.getAllUsers();
-        model.addAttribute("userList", userList);
-        return "";//html templates for all users
     }
 
     private void getCaptcha(Acc user) {

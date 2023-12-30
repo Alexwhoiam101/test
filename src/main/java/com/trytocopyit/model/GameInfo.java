@@ -1,6 +1,8 @@
 package com.trytocopyit.model;
 
 import com.trytocopyit.entity.Game;
+
+
 public class GameInfo {
     private String code;
     private String name;
@@ -9,10 +11,10 @@ public class GameInfo {
     public GameInfo() {
     }
 
-    public GameInfo(Game product) {
-        this.code = product.getCode();
-        this.name = product.getName();
-        this.price = product.getPrice();
+    public GameInfo(Game game) {
+        this.code = game.getCode();
+        this.name = game.getName();
+        this.price = game.getPrice();
     }
 
     // Using in JPA/Hibernate query
@@ -20,14 +22,6 @@ public class GameInfo {
         this.code = code;
         this.name = name;
         this.price = price;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {
@@ -44,5 +38,13 @@ public class GameInfo {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

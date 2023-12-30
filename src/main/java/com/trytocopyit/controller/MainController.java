@@ -73,12 +73,12 @@ public class MainController {
         return "index";
     }
 
-    // Product List
+
     @RequestMapping({ "/gameList" })
     public String listProductHandler(Model model, //
                                      @RequestParam(value = "name", defaultValue = "") String likeName,
                                      @RequestParam(value = "page", defaultValue = "1") int page) {
-        final int maxResult = 5;
+        final int maxResult = 8;
         final int maxNavigationPage = 10;
 
         PaginationResult<GameInfo> result = gameRepository.queryGame(page, //

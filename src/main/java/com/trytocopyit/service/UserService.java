@@ -20,6 +20,11 @@ public class UserService implements UserDetailsService{
     @Autowired
     private UserRepository userRepository;
 
+    public void save(Acc user){
+        userRepository.save(user);
+        return;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Acc account = userRepository.findAccount(username);

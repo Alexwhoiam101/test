@@ -10,28 +10,22 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude = {
         DataSourceAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class })
-@EnableJpaRepositories(basePackages="com.trytocopyit", entityManagerFactoryRef="emf")
+@EnableJpaRepositories(basePackages="com.trytocopyit")
 public class TrytocopyitApplication {
     @Autowired
     private Environment env;
@@ -41,7 +35,7 @@ public class TrytocopyitApplication {
     }
 
     @Bean(name = "dataSource")
-    public DataSource getDataSource() {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         // See: application.properties
@@ -57,7 +51,7 @@ public class TrytocopyitApplication {
 
     @Autowired
     @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
+    public SessionFactory sessionFactory(DataSource dataSource) throws Exception {
         Properties properties = new Properties();
 
         // See: application.properties
@@ -81,17 +75,17 @@ public class TrytocopyitApplication {
 
     @Autowired
     @Bean(name = "transactionManager")
-    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 
         return new HibernateTransactionManager(sessionFactory);
     }
 
 
-    @Bean(name = "emf")
+    @Bean(name = "entityManagerFactory")
     public EntityManagerFactory entityManagerFactory() {
         // Configure and create the EntityManagerFactory
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(getDataSource());
+        emf.setDataSource(dataSource());
         emf.setPackagesToScan("com.trytocopyit.entity");
         // Configure other necessary properties such as data source, packages to scan, etc.
         return emf.getObject();

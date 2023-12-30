@@ -15,18 +15,18 @@
 <div class="game-preview-container" th:each="gameInfo : ${paginationGames.list}">
     <ul>
         <li><img class="game-image"
-                 th:src="@{|/gameImage?code=${gameInfo.code}|}" /></li>
-        <li>Code: <span th:utext="${gameInfo.code}"></span></li>
-        <li>Name: <span th:utext="${gameInfo.name}"></span></li>
-        <li>Price: <span th:utext="${#numbers.formatDecimal(gameInfo.price,3,2,'COMMA')}"></span></li>
+                 th:src="@{|/gameImage?code=${gameInfo[0].code}|}" /></li>
+        <li>Code: <span th:utext="${gameInfo[0].code}"></span></li>
+        <li>Name: <span th:utext="${gameInfo[0].name}"></span></li>
+        <li>Price: <span th:utext="${#numbers.formatDecimal(gameInfo[0].price,3,2,'COMMA')}"></span></li>
         <li>
-            <a th:href="@{|/buyGame?code=${gameInfo.code}|}">Buy Now</a>
+            <a th:href="@{|/buyGame?code=${gameInfo[0].code}|}">Buy Now</a>
         </li>
         <!-- For Manager edit Product -->
         <th:block sec:authorize="hasAuthority('ADMIN')">
             <li>
-                <a style="color:red;"
-                   th:href="@{|/admin/game?code=${gameInfo.code}|}">Edit Game</a>
+                <a style="color:dodgerblue;"
+                   th:href="@{|/admin/game?code=${gameInfo[0].code}|}">Edit Game</a>
             </li>
         </th:block>
     </ul>
@@ -36,7 +36,7 @@
 <div class="page-navigator" th:if="${paginationGames.totalPages > 1}">
     <th:block th:each="page : ${paginationGames.navigationPages}">
 
-        <a th:href="@{|/productList?page=${page}|}" th:if="${page != -1}"
+        <a th:href="@{|/gameList?page=${page}|}" th:if="${page != -1}"
            class="nav-item" th:utext="${page}"></a>
 
         <span class="nav-item" th:if="${page == -1}"> ... </span>
