@@ -28,6 +28,9 @@ public class Acc implements Serializable {
     @Column(name = "User_Role", length = 20, nullable = false)
     private String userRole;
 
+    @Column(name = "failed_attempt")
+    private int failedAttempt;
+
     @Transient
     private String captcha;
 
@@ -42,11 +45,13 @@ public class Acc implements Serializable {
         encrytedPassword = encrytedPassword_;
         active = true;
         userRole = "ROLE_USER";
+        failedAttempt = 0;
     }
 
     public Acc() {
         active = true;
         userRole = "ROLE_USER";
+        failedAttempt = 0;
     }
 
     public String getUserName() {
@@ -108,5 +113,13 @@ public class Acc implements Serializable {
 
     public void setRealCaptcha(String realCaptcha) {
         this.realCaptcha = realCaptcha;
+    }
+
+    public int getFailedAttempt() {
+        return failedAttempt;
+    }
+
+    public void setFailedAttempt(int failedAttempt) {
+        this.failedAttempt = failedAttempt;
     }
 }

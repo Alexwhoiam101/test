@@ -7,20 +7,17 @@ public class GameForm {
     private String code;
     private String name;
     private double price;
-
     private boolean newGame = false;
-
-    // Upload file.
     private MultipartFile fileData;
 
     public GameForm() {
         this.newGame = true;
     }
 
-    public GameForm(Game product) {
-        this.code = product.getCode();
-        this.name = product.getName();
-        this.price = product.getPrice();
+    public GameForm(Game game) {
+        this.code = game.getCode();
+        this.name = game.getName();
+        this.price = game.getPrice();
     }
 
     public String getCode() {

@@ -1,5 +1,8 @@
 package com.trytocopyit.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,13 +16,14 @@ public class OrderDetail implements Serializable {
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_ID", nullable = false, //
-            foreignKey = @ForeignKey(name = "ORDER_DETAIL_ORD_FK"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "ORDER_ID", nullable = false,
+            foreignKey = @ForeignKey(name = "ORDER_DETAIL_ORDER_FK"))
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "GAME_ID", nullable = false, //
-            foreignKey = @ForeignKey(name = "ORDER_DETAIL_PROD_FK"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "GAME_ID", nullable = false)
     private Game game;
 
     @Column(name = "Quanity", nullable = false)

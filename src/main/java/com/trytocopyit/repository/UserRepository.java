@@ -28,7 +28,6 @@ public class UserRepository {
 
     public void save(Acc user) {
         Session session = this.sessionFactory.getCurrentSession();
-        user.setEncrytedPassword(bCryptPasswordEncoder.encode(user.getEncrytedPassword()));
         // System.out.println("Account= " + user);
         session.persist(user);
 

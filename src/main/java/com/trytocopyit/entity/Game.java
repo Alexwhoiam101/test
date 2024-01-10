@@ -1,5 +1,7 @@
 package com.trytocopyit.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 import java.io.Serializable;
@@ -13,6 +15,7 @@ import javax.persistence.TemporalType;
 public class Game implements Serializable{
     private static final long serialVersionUID = -1000119078147252957L;
     @Id
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @Column(name = "Code", length = 20, nullable = false)
     private String code;
 

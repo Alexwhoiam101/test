@@ -22,14 +22,14 @@
         <th>View</th>
     </tr>
     <tr th:each="orderInfo : ${paginationResult.list}">
-        <td th:utext="${orderInfo.orderNum}"></td>
-        <td th:utext="${#dates.format(orderInfo.orderDate,'dd-MM-yyyy HH:mm')}"></td>
-        <td th:utext="${orderInfo.customerName}"></td>
-        <td th:utext="${orderInfo.customerAddress}"></td>
-        <td th:utext="${orderInfo.customerEmail}"></td>
-        <td style="color:red;" th:utext="${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}">
+        <td th:utext="${orderInfo[0].orderNum}"></td>
+        <td th:utext="${#dates.format(orderInfo[0].orderDate,'dd-MM-yyyy HH:mm')}"></td>
+        <td th:utext="${orderInfo[0].customerName}"></td>
+        <td th:utext="${orderInfo[0].customerAddress}"></td>
+        <td th:utext="${orderInfo[0].customerEmail}"></td>
+        <td style="color:red;" th:utext="${#numbers.formatDecimal(orderInfo[0].amount,3,2,'COMMA')}">
         </td>
-        <td><a th:href="@{|/admin/order?orderId=${orderInfo.id}|}">View</a></td>
+        <td><a th:href="@{|/admin/order?orderId=${orderInfo[0].id}|}">View</a></td>
     </tr>
 </table>
 <div class="page-navigator" th:if="${paginationResult.totalPages > 1}" >

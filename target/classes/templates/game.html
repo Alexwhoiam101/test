@@ -67,7 +67,19 @@
         </tr>
     </table>
 </form>
-
+<form  th:object="${gameForm}" th:action="@{/admin/game/delete}"
+       method="POST" enctype="multipart/form-data">
+    <table style="text-align:left;">
+        <tr>
+            <td>
+                <th:block th:if="${!gameForm.newGame}">
+                    <input type="hidden" th:field="*{code}" />
+                    <input type="submit" value="Delete" />
+                </th:block>
+            </td>
+        </tr>
+    </table>
+</form>
 <th:block th:include="/_footer"></th:block>
 
 </body>

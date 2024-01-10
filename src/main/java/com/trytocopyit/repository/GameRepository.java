@@ -79,7 +79,7 @@ public class GameRepository {
         if (isNew) {
             session.persist(game);
         }
-        // If error in DB, Exceptions will be thrown out immediately
+
         session.flush();
     }
 
@@ -103,5 +103,21 @@ public class GameRepository {
 
     public PaginationResult<GameInfo> queryGame(int page, int maxResult, int maxNavigationPage) {
         return queryGame(page, maxResult, maxNavigationPage, null);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public void delete(GameForm gameForm) {
+        Session session = this.sessionFactory.getCurrentSession();
+        String code = gameForm.getCode();
+
+        Game game = null;
+
+        boolean isNew = false;
+        if (code != null) {
+            game = this.findGame(code);
+            session.delete(game);
+        }
+
+        session.flush();
     }
 }

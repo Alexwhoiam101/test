@@ -1,9 +1,15 @@
 package com.trytocopyit.controller;
 
+import com.trytocopyit.entity.Acc;
 import com.trytocopyit.entity.Game;
+import com.trytocopyit.form.CustomerForm;
 import com.trytocopyit.form.GameForm;
+import com.trytocopyit.form.UserForm;
+import com.trytocopyit.repository.UserRepository;
 import com.trytocopyit.service.UserService;
+import com.trytocopyit.validator.UserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.List;
@@ -34,7 +40,19 @@ public class AdminController {
     private GameRepository gameRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private GameFormValidator gameFormValidator;
+
+    @Autowired
+    private UserFormValidator userFormValidator;
+
+    @Autowired
+    private UserService service;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
@@ -47,14 +65,63 @@ public class AdminController {
         if (target.getClass() == GameForm.class) {
             dataBinder.setValidator(gameFormValidator);
         }
+
+        if(target.getClass() == UserForm.class){
+            dataBinder.setValidator(userFormValidator);
+        }
     }
 
-    // GET: Show Login Page
+    
     @RequestMapping(value = { "/admin/login" }, method = RequestMethod.GET)
-    public String login(Model model) {
-
+    public String login(Model model, String message) {
+        model.addAttribute("userForm", new UserForm());
+        model.addAttribute("message");
         return "login";
     }
+
+    @RequestMapping(value = { "/admin/login" }, method = RequestMethod.POST)
+    public String loginWork(Model model,
+                        @ModelAttribute("userForm") @Validated UserForm userForm,
+                            BindingResult result,
+                            final RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()){
+            return "login";
+        }
+        try {
+            Acc user = userRepository.findAccount(userForm.getUsername());
+            if (user != null) {
+                if(!user.isActive()){
+                    model.addAttribute("message", "The user is blocked, contact the moderator");
+                    return "login";
+                }
+                if (!bCryptPasswordEncoder.matches(userForm.getPassword(), user.getEncrytedPassword())  ) {
+                    service.increaseFailedAttempts(user);
+                    model.addAttribute("message", String.format("Error password, try %d", user.getFailedAttempt()));
+                    return "login";
+                } else {
+                    service.resetFailedAttempts(user.getUserName());
+                    service.autoLogin(userForm.getUsername(), bCryptPasswordEncoder.encode(userForm.getPassword()));
+                }
+            } else {
+                model.addAttribute("message", String.format("User %s, not found", userForm.getUsername()));
+                return "login";
+            }
+        } catch (Exception e) {
+            Throwable rootCause = ExceptionUtils.getRootCause(e);
+            String message = rootCause.getMessage();
+            model.addAttribute("message", message);
+            return "login";
+        }
+
+        return "redirect:/admin/accountInfo";
+    }
+
+    @RequestMapping(value = { "/admin/logout" }, method = RequestMethod.GET)
+    public String logoutSec(){
+        service.logout();
+        return "redirect:/admin/login";
+    }
+
 
     @RequestMapping(value = { "/admin/accountInfo" }, method = RequestMethod.GET)
     public String accountInfo(Model model) {
@@ -84,7 +151,7 @@ public class AdminController {
         return "orderList";
     }
 
-    // GET: Show product.
+
     @RequestMapping(value = { "/admin/game" }, method = RequestMethod.GET)
     public String game(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
         GameForm gameForm = null;
@@ -103,14 +170,14 @@ public class AdminController {
         return "game";
     }
 
-    // POST: Save product
+
     @RequestMapping(value = { "/admin/game" }, method = RequestMethod.POST)
-    public String gameSave(Model model, //
-                              @ModelAttribute("gameForm") @Validated GameForm gameForm, //
-                              BindingResult result, //
+    public String gameSave(Model model,
+                              @ModelAttribute("gameForm") @Validated GameForm gameForm,
+                              BindingResult result,
                               final RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()){
             return "game";
         }
         try {
@@ -119,7 +186,27 @@ public class AdminController {
             Throwable rootCause = ExceptionUtils.getRootCause(e);
             String message = rootCause.getMessage();
             model.addAttribute("errorMessage", message);
-            // Show product form.
+            return "game";
+        }
+
+        return "redirect:/gameList";
+    }
+
+    @RequestMapping(value = { "/admin/game/delete" }, method = RequestMethod.POST)
+    public String gameDelete(Model model,
+                           @ModelAttribute("gameForm") GameForm gameForm,
+                           BindingResult result,
+                           final RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            return "game";
+        }
+        try {
+            gameRepository.delete(gameForm);
+        } catch (Exception e) {
+            Throwable rootCause = ExceptionUtils.getRootCause(e);
+            String message = rootCause.getMessage();
+            model.addAttribute("errorMessage", message);
             return "game";
         }
 

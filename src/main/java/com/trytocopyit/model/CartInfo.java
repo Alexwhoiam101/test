@@ -65,7 +65,7 @@ public class CartInfo {
 
     }
 
-    public void updateProduct(String code, int quantity) {
+    public void updateGame(String code, int quantity) {
         CartLineInfo line = this.findLineByCode(code);
 
         if (line != null) {
@@ -77,8 +77,8 @@ public class CartInfo {
         }
     }
 
-    public void removeProduct(GameInfo productInfo) {
-        CartLineInfo line = this.findLineByCode(productInfo.getCode());
+    public void removeGame(GameInfo gameInfo) {
+        CartLineInfo line = this.findLineByCode(gameInfo.getCode());
         if (line != null) {
             this.cartLines.remove(line);
         }
@@ -112,7 +112,7 @@ public class CartInfo {
         if (cartForm != null) {
             List<CartLineInfo> lines = cartForm.getCartLines();
             for (CartLineInfo line : lines) {
-                this.updateProduct(line.getGameInfo().getCode(), line.getQuantity());
+                this.updateGame(line.getGameInfo().getCode(), line.getQuantity());
             }
         }
 

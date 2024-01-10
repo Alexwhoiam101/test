@@ -15,24 +15,31 @@
     <h3>Enter username and password</h3>
     <br>
     <!-- /login?error=true -->
-    <th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
-        <div th:if= "${#request.getParameter('error') == 'true'}"
+    <th:block>
+        <div th:if="${message!=null}"
              style="color: red; margin: 10px 0px;">
-            Login Failed!!!<br /> Reason :
-            <span th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
+            Login Failed!!!<br/> Reason :
+            <div  class="errorMessage">
+                <span th:text="${message}"></span>
+            </div>
         </div>
     </th:block>
 
-    <form method="POST"
-          th:action="@{/j_spring_security_check}">
+    <form method="POST"  th:action="@{/admin/login}" th:object="${userForm}">
         <table>
             <tr>
                 <td>User Name *</td>
-                <td><input name="userName" /></td>
+                <td><input name="userName" th:field="*{username}"/></td>
+                <td>
+                    <span class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">..</span>
+                </td>
             </tr>
             <tr>
                 <td>Password *</td>
-                <td><input type="password" name="password" /></td>
+                <td><input type="password" name="password" th:field="*{password}"/></td>
+                <td>
+                    <span class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
+                </td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
@@ -44,7 +51,6 @@
         </table>
     </form>
 
-    <span class="error-message" th:utext="${error}"></span>
 </div>
 
 <div style="text-align:left">

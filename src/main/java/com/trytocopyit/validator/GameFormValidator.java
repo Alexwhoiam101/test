@@ -15,7 +15,6 @@ public class GameFormValidator implements Validator {
     @Autowired
     private GameRepository gameRepository;
 
-    // This validator only checks for the ProductForm.
     @Override
     public boolean supports(Class<?> clazz) {
         return clazz == GameForm.class;
@@ -25,7 +24,7 @@ public class GameFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         GameForm gameForm = (GameForm) target;
 
-        // Check the fields of ProductForm.
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "NotEmpty.gameForm.code");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.gameForm.name");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.gameForm.price");
@@ -35,8 +34,8 @@ public class GameFormValidator implements Validator {
             if (code.matches("\\s+")) {
                 errors.rejectValue("code", "Pattern.gameForm.code");
             } else if (gameForm.isNewGame()) {
-                Game product = gameRepository.findGame(code);
-                if (product != null) {
+                Game game = gameRepository.findGame(code);
+                if (game != null) {
                     errors.rejectValue("code", "Duplicate.gameForm.code");
                 }
             }

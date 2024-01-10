@@ -13,8 +13,8 @@
 <div class="page-title">Game List</div>
 
 <div class="game-preview-container" th:each="gameInfo : ${paginationGames.list}">
-    <ul>
-        <li><img class="game-image"
+    <ul class="iconblock-3">
+        <li class="icon"><img
                  th:src="@{|/gameImage?code=${gameInfo[0].code}|}" /></li>
         <li>Code: <span th:utext="${gameInfo[0].code}"></span></li>
         <li>Name: <span th:utext="${gameInfo[0].name}"></span></li>
@@ -23,7 +23,7 @@
             <a th:href="@{|/buyGame?code=${gameInfo[0].code}|}">Buy Now</a>
         </li>
         <!-- For Manager edit Product -->
-        <th:block sec:authorize="hasAuthority('ADMIN')">
+        <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
             <li>
                 <a style="color:dodgerblue;"
                    th:href="@{|/admin/game?code=${gameInfo[0].code}|}">Edit Game</a>

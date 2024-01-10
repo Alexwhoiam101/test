@@ -11,7 +11,7 @@
         My Cart
     </a>
     |
-    <th:block sec:authorize="hasAnyRole('ADMIN','USER')">
+    <th:block sec:authorize="hasAnyRole('ADMIN','USER', 'MODER')">
         <a th:href="@{/admin/orderList}">
             Order List
         </a>
