@@ -19,7 +19,7 @@ public class PaginationResult<E> {
 
     private List<Integer> navigationPages;
 
-    // @page: 1, 2, ..
+    // @страницы: 1, 2, ..
     public PaginationResult(Query<E> query, int page, int maxResult, int maxNavigationPage) {
         final int pageIndex = page - 1 < 0 ? 0 : page - 1;
 
@@ -33,24 +33,24 @@ public class PaginationResult<E> {
         boolean hasResult = resultScroll.first();
 
         if (hasResult) {
-            // Scroll to position:
+            // листаем до нужной страницы:
             hasResult = resultScroll.scroll(fromRecordIndex);
 
             if (hasResult) {
                 do {
                     E record = (E) resultScroll.get();
                     results.add(record);
-                } while (resultScroll.next()//
+                } while (resultScroll.next()
                         && resultScroll.getRowNumber() >= fromRecordIndex
                         && resultScroll.getRowNumber() < maxRecordIndex);
 
             }
 
-            // Go to Last record.
+            // идём до ласта.
             resultScroll.last();
         }
 
-        // Total Records
+        // итоговый вариант
         this.totalRecords = resultScroll.getRowNumber() + 1;
         this.currentPage = pageIndex + 1;
         this.list = results;
@@ -80,11 +80,9 @@ public class PaginationResult<E> {
         int begin = current - this.maxNavigationPage / 2;
         int end = current + this.maxNavigationPage / 2;
 
-        // The first page
+        // первая страница
         navigationPages.add(1);
         if (begin > 2) {
-
-            // Using for '...'
             navigationPages.add(-1);
         }
 
@@ -95,11 +93,9 @@ public class PaginationResult<E> {
         }
 
         if (end < this.totalPages - 2) {
-
-            // Using for '...'
             navigationPages.add(-1);
         }
-        // The last page.
+        // последняя.
         navigationPages.add(this.totalPages);
     }
 

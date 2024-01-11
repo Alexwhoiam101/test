@@ -3,10 +3,7 @@ package com.trytocopyit.service;
 import com.trytocopyit.entity.Acc;
 import com.trytocopyit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +21,6 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
-
-    //@Autowired
-    //private AuthenticationManager authenticationManager;
 
     public static final int MAX_FAILED_ATTEMPTS = 3;
 

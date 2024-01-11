@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "games")
 public class Game implements Serializable{
-    private static final long serialVersionUID = -1000119078147252957L;
+    private static final long serialVersionUID = -1110119238312515157L;
     @Id
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Column(name = "Code", length = 20, nullable = false)

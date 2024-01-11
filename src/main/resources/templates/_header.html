@@ -4,7 +4,7 @@
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
      xmlns:c="http://www.w3.org/1999/XSL/Transform">
     <div class="snowblock">
-        <div class="site-name">Try2CopyIt</div>
+        <div class="site-name"> <a th:href="@{/}" style="text-decoration:none; color:white">Try2CopyIt</a> </div>
 
         <div class="header-bar">
                 <th:block sec:authorize="isAuthenticated()">

@@ -2,7 +2,6 @@ package com.trytocopyit.controller;
 
 import com.trytocopyit.entity.Acc;
 import com.trytocopyit.entity.Game;
-import com.trytocopyit.form.CustomerForm;
 import com.trytocopyit.form.GameForm;
 import com.trytocopyit.form.UserForm;
 import com.trytocopyit.repository.UserRepository;

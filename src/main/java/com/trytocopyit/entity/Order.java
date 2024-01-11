@@ -9,11 +9,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "orders", //
+@Table(name = "orders",
         uniqueConstraints = { @UniqueConstraint(columnNames = "Order_Num") })
 public class Order implements Serializable{
 
-    private static final long serialVersionUID = -2576670215015463100L;
+    private static final long serialVersionUID = -4126673132215463312L;
     @Id
     @Column(name = "ID", length = 50)
     private String id;

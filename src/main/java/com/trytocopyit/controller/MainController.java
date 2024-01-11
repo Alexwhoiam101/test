@@ -15,8 +15,6 @@ import com.trytocopyit.pagination.PaginationResult;
 import com.trytocopyit.utils.Utils;
 import com.trytocopyit.validator.CustomerFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -71,13 +69,13 @@ public class MainController {
 
 
     @RequestMapping({ "/gameList" })
-    public String listProductHandler(Model model, //
+    public String listProductHandler(Model model,
                                      @RequestParam(value = "name", defaultValue = "") String likeName,
                                      @RequestParam(value = "page", defaultValue = "1") int page) {
         final int maxResult = 8;
         final int maxNavigationPage = 10;
 
-        PaginationResult<GameInfo> result = gameRepository.queryGame(page, //
+        PaginationResult<GameInfo> result = gameRepository.queryGame(page,
                 maxResult, maxNavigationPage, likeName);
 
         model.addAttribute("paginationGames", result);
@@ -85,7 +83,7 @@ public class MainController {
     }
 
     @RequestMapping({ "/buyGame" })
-    public String listProductHandler(HttpServletRequest request, Model model, //
+    public String listProductHandler(HttpServletRequest request, Model model,
                                      @RequestParam(value = "code", defaultValue = "") String code) {
 
         Game game = null;
@@ -93,8 +91,6 @@ public class MainController {
             game = gameRepository.findGame(code);
         }
         if (game != null) {
-
-            //
             CartInfo cartInfo = Utils.getCartInSession(request);
 
             GameInfo gameInfo = new GameInfo(game);
@@ -106,7 +102,7 @@ public class MainController {
     }
 
     @RequestMapping({ "/shoppingCartRemoveGame" })
-    public String removeProductHandler(HttpServletRequest request, Model model, //
+    public String removeProductHandler(HttpServletRequest request, Model model,
                                        @RequestParam(value = "code", defaultValue = "") String code) {
         Game game = null;
         if (code != null && code.length() > 0) {
@@ -126,8 +122,8 @@ public class MainController {
     }
 
     @RequestMapping(value = { "/shoppingCart" }, method = RequestMethod.POST)
-    public String shoppingCartUpdateQty(HttpServletRequest request, //
-                                        Model model, //
+    public String shoppingCartUpdateQty(HttpServletRequest request,
+                                        Model model,
                                         @ModelAttribute("cartForm") CartInfo cartForm) {
 
         CartInfo cartInfo = Utils.getCartInSession(request);

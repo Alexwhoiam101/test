@@ -13,7 +13,7 @@ public class OrderDetailInfo {
     }
 
     // Using for JPA/Hibernate Query.
-    public OrderDetailInfo(String id, String gameCode, //
+    public OrderDetailInfo(String id, String gameCode,
                            String gameName, int quanity, double price, double amount) {
         this.id = id;
         this.GameCode = gameCode;

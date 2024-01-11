@@ -6,8 +6,8 @@ public class CustomerForm {
 
     private String name;
     private String address;
-    private String email;
     private String phone;
+    private String email;
 
     private boolean valid;
 

@@ -24,36 +24,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    /*
-    @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
-
-
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
-    }
-    */
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf().disable();
-        httpSecurity.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")//
-                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        //httpSecurity.csrf().disable();
+        httpSecurity.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")
+                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODER')");
 
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/login").permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/admin/game").access("hasRole('ROLE_ADMIN')");
+        httpSecurity.authorizeRequests().antMatchers("/admin/game").access("hasAnyRole('ROLE_ADMIN', 'ROLE_MODER')");
         httpSecurity.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-        /*httpSecurity.authorizeRequests().and().formLogin()
-                .loginProcessingUrl("/admin/login")
-                .loginPage("/admin/login")
-                .defaultSuccessUrl("/admin/accountInfo")
-                .failureUrl("/admin/login?error=true")
-                .usernameParameter("userName")
-                .passwordParameter("password")
-                .and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/");*/
     }
 }

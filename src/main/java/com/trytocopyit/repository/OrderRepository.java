@@ -72,18 +72,15 @@ public class OrderRepository {
             session.persist(detail);
         }
 
-        // Order Number!
         cartInfo.setOrderNum(orderNum);
-        // Flush
         session.flush();
     }
 
-    // @page = 1, 2, ...
     public PaginationResult<OrderInfo> listOrderInfo(int page, int maxResult, int maxNavigationPage) {
-        String sql = "Select new " + OrderInfo.class.getName()//
+        String sql = "Select new " + OrderInfo.class.getName()
                 + "(ord.id, ord.orderDate, ord.orderNum, ord.amount, "
                 + " ord.customerName, ord.customerAddress, ord.customerEmail, ord.customerPhone) " + " from "
-                + Order.class.getName() + " ord "//
+                + Order.class.getName() + " ord "
                 + " order by ord.orderNum desc";
 
         Session session = this.sessionFactory.getCurrentSession();
@@ -101,15 +98,15 @@ public class OrderRepository {
         if (order == null) {
             return null;
         }
-        return new OrderInfo(order.getId(), order.getOrderDate(), //
-                order.getOrderNum(), order.getAmount(), order.getCustomerName(), //
+        return new OrderInfo(order.getId(), order.getOrderDate(),
+                order.getOrderNum(), order.getAmount(), order.getCustomerName(),
                 order.getCustomerAddress(), order.getCustomerEmail(), order.getCustomerPhone());
     }
 
     public List<OrderDetailInfo> listOrderDetailInfos(String orderId) {
-        String sql = "Select new " + OrderDetailInfo.class.getName() //
-                + "(d.id, d.game.code, d.game.name , d.quanity,d.price,d.amount) "//
-                + " from " + OrderDetail.class.getName() + " d "//
+        String sql = "Select new " + OrderDetailInfo.class.getName()
+                + "(d.id, d.game.code, d.game.name , d.quanity,d.price,d.amount) "
+                + " from " + OrderDetail.class.getName() + " d "
                 + " where d.order.id = :orderId ";
 
         Session session = this.sessionFactory.getCurrentSession();

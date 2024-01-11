@@ -91,7 +91,7 @@ public class GameRepository {
             sql += " Where lower(p.name) like :likeName ";
         }
         sql += " order by p.createDate desc ";
-        //
+
         Session session = this.sessionFactory.getCurrentSession();
         Query<GameInfo> query = session.createQuery(sql, GameInfo.class);
 

@@ -1,17 +1,12 @@
 package com.trytocopyit.controller;
 
 import com.trytocopyit.entity.Acc;
-import com.trytocopyit.form.GameForm;
-import com.trytocopyit.form.UserForm;
 import com.trytocopyit.repository.UserRepository;
 import com.trytocopyit.service.UserService;
-import com.trytocopyit.validator.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import com.trytocopyit.service.CaptchaService;
 import cn.apiclub.captcha.Captcha;
@@ -47,7 +42,7 @@ public class RegistrationController {
     ) {
         String username = user.getUserName();
         if (username != null && username.length() > 0) {
-            if (username.matches("\\s+") || !username.matches("[a-zA-Z]+")) {
+            if (username.matches("\\s+") || !username.matches("[a-zA-Z0-9]+")) {
                 model.addAttribute("message","Username pattern is not valid");
                 getCaptcha(user);
                 model.addAttribute("user", user);
@@ -67,6 +62,7 @@ public class RegistrationController {
         if(user.getCaptcha().equals(user.getHiddenCaptcha())) {
             user.setEncrytedPassword(bCryptPasswordEncoder.encode(user.getEncrytedPassword()));
             service.save(user);
+            System.out.println("User Registered successfully! := " + user);
             model.addAttribute("message", "User Registered successfully!");
             return "redirect:/admin/login";
         }

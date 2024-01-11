@@ -10,10 +10,11 @@ import javax.persistence.*;
 @Table(name = "accounts")
 public class Acc implements Serializable {
 
-    private static final long serialVersionUID = -2054386655979281969L;
+    private static final long serialVersionUID = -6244386423972341969L;
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_USER = "ROLE_USER";
+    public static final String ROLE_MODER = "ROLE_MODER";
 
     @Id
     @Column(name = "User_Name", length = 20, nullable = false)

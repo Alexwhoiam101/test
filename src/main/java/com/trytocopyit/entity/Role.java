@@ -13,8 +13,7 @@ public class Role implements GrantedAuthority {
     private String name;
     @Transient
     @ManyToMany(mappedBy = "roles")
-    private Set<Acc> accs;// = new HashSet<User>();
-    //private List<User> users = new ArrayList<>();
+    private Set<Acc> accs;
     public Role() {
     }
 

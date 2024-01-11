@@ -29,7 +29,7 @@ public class RegisterValidator implements Validator {
 
         String username = acc.getUserName();
         if (username != null && username.length() > 0) {
-            if (username.matches("\\s+") || !username.matches("[a-zA-Z]+")) {
+            if (username.matches("\\s+") || !username.matches("[a-zA-Z0-9]+")) {
                 errors.rejectValue("pattern", "Pattern.regForm.pattern");
             }else if(userRepository.findAccount(username) != null){
                 errors.rejectValue("acc", "Duplicate.regForm.findacc");

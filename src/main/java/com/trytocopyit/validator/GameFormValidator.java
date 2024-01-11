@@ -30,10 +30,12 @@ public class GameFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.gameForm.price");
 
         String code = gameForm.getCode();
+        String name = gameForm.getName();
         if (code != null && code.length() > 0) {
             if (code.matches("\\s+")) {
                 errors.rejectValue("code", "Pattern.gameForm.code");
-            } else if (gameForm.isNewGame()) {
+            } else if(!name.matches("[a-zA-Z0-9 ]+")){errors.rejectValue("name", "Pattern.gameForm.name");}
+                else if (gameForm.isNewGame()) {
                 Game game = gameRepository.findGame(code);
                 if (game != null) {
                     errors.rejectValue("code", "Duplicate.gameForm.code");

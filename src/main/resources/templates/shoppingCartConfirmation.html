@@ -9,7 +9,7 @@
 <th:block th:include="/_header"></th:block>
 <th:block th:include="/_menu"></th:block>
 
-<div class="page-title">Confirmation</div>
+<div class="page-title"><p class="title">Confirmation</p></div>
 <div class="customer-info-container">
     <h3>Customer Information:</h3>
     <ul>
@@ -20,7 +20,7 @@
     </ul>
     <h3>Cart Summary:</h3>
     <ul>
-        <li>Quantity: <span th:utext="${myCart.quantityTotal}"></span>$</li>
+        <li>Quantity: <span th:utext="${myCart.quantityTotal}"></span></li>
         <li>Total:
             <span class="total"
                   th:utext="${#numbers.formatDecimal(myCart.amountTotal,3,2,'COMMA')}">
@@ -45,7 +45,7 @@
         <ul>
             <li>
                 <img class="game-image"
-                     src="@{|/gameImage?code=${cartLineInfo.gameInfo.code}|}" />
+                     th:src="@{|/gameImage?code=${cartLineInfo.gameInfo.code}|}" />
             </li>
             <li>
                 Code: <span th:utext="${cartLineInfo.gameInfo.code}"></span>
