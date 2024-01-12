@@ -23,7 +23,7 @@
             <a th:href="@{|/buyGame?code=${gameInfo[0].code}|}">Buy Now</a>
         </li>
         <!-- For Manager edit Product -->
-        <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
+        <th:block sec:authorize="hasAnyRole('ADMIN', 'MODER')">
             <li>
                 <a style="color:dodgerblue;"
                    th:href="@{|/admin/game?code=${gameInfo[0].code}|}">Edit Game</a>

@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         //httpSecurity.csrf().disable();
-        httpSecurity.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")
+        httpSecurity.authorizeRequests().antMatchers("/gameList","/shoppingCart","/admin/orderList", "/admin/order", "/admin/accountInfo")
                 .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODER')");
 
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/login").permitAll();

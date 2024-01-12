@@ -18,35 +18,28 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService{
-
     @Autowired
     private UserRepository userRepository;
-
     public static final int MAX_FAILED_ATTEMPTS = 3;
-
     public void increaseFailedAttempts(Acc user) {
         user.setFailedAttempt(user.getFailedAttempt()+1);
         if(user.getFailedAttempt() >= MAX_FAILED_ATTEMPTS)
             lock(user);
         userRepository.save(user);
     }
-
     public void resetFailedAttempts(String name) {
         Acc user = userRepository.findAccount(name);
         user.setFailedAttempt(0);
         userRepository.save(user);
     }
-
     public void lock(Acc user) {
         user.setActive(false);
         userRepository.save(user);
     }
-
     public void save(Acc user){
         userRepository.save(user);
         return;
     }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Acc account = userRepository.findAccount(username);
@@ -76,7 +69,6 @@ public class UserService implements UserDetailsService{
 
         return userDetails;
     }
-
     public void autoLogin(String username, String password) {
         UserDetails userDetails = loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
@@ -88,7 +80,6 @@ public class UserService implements UserDetailsService{
             System.out.println(String.format("Auto login %s successfully!", username));
         }
     }
-
     public void logout(){
         SecurityContextHolder.clearContext();
     }

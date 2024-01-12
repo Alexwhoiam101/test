@@ -2,14 +2,16 @@
      xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" style="font-size: 24pt;">
     <a th:href="@{/}">Home</a>
-    |
-    <a th:href="@{/gameList}">
-        Game List
-    </a>
-    |
-    <a th:href="@{/shoppingCart}">
-        My Cart
-    </a>
+    <th:block sec:authorize="isAuthenticated()">
+        |
+        <a th:href="@{/gameList}">
+            Game List
+        </a>
+        |
+        <a th:href="@{/shoppingCart}">
+            My Cart
+        </a>
+    </th:block>
     <th:block sec:authorize="hasAnyRole('ADMIN', 'MODER')">
         |
         <a th:href="@{/admin/orderList}">
